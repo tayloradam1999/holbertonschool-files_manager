@@ -1,34 +1,78 @@
 const redis = require('redis');
-const { promisify } = require('util');
+// const { promisify } = require('util');
+
 
 class RedisClient {
-    // the constructor that creates a client to Redis:
-    // any error displayed in the console
-  constructor() {
-    this.client = redis.createClient();
-    this.client.on('error', (error) => console.log(error));
-  }
+	constructor() {
+		this.client = redis.createClient();
+		this.client.on('error', (err) => {
+			console.log(err);
+		});
+	}
 
-  isAlive() {
-    return this.client.connected;
-  }
-   // get function returns the Redis value stored for this key
-    async get(key) {
-    const getFunc = promisify(this.client.get).bind(this.client);
-    const redisValue = await getFunc(key).catch(console.error);
-    return redisValue;
-  }
-   // set function takes args to store it in Redis (with an expiration set by the duration argument)
-  async set(key, value, duration) {
-    const setFunc = promisify(this.client.set).bind(this.client);
-    await setFunc(key, value, 'EX', duration).catch(console.error);
-  }
-   // del fucntion removes the value in Redis for this key
-  async del(key) {
-    const delFunc = promisify(this.client.del).bind(this.client);
-    await delFunc(key).catch(console.error);
-  }
+	isAlive() {
+		return this.client.connected();
+	}
+
+	get(key) {
+		// async function returns redis value stored for key
+		return new Promise((resolve, reject) => {
+			this.client.get(key, (err, reply) => {
+				if (err) reject(err);
+				resolve(reply);
+			});
+		});
+	}
+
+	set(key, value) {
+		// async function sets redis value for key
+		return new Promise((resolve, reject) => {
+			this.client.set(key, value, (err, reply) => {
+				if (err) reject(err);
+				resolve(reply);
+			});
+		});
+	}
+
+	del(key) {
+		// async function deletes redis value for key
+		return new Promise((resolve, reject) => {
+			this.client.del(key, (err, reply) => {
+				if (err) reject(err);
+				resolve(reply);
+			});
+		});
+	}
 }
+
+// class RedisClient {
+     // the constructor that creates a client to Redis:
+     // any error displayed in the console
+//   constructor() {
+//     this.client = redis.createClient();
+//     this.client.on('error', (error) => console.log(error));
+//   }
+
+//   isAlive() {
+//     return this.client.connected;
+//   }
+    // get function returns the Redis value stored for this key
+//     async get(key) {
+//     const getFunc = promisify(this.client.get).bind(this.client);
+//     const redisValue = await getFunc(key).catch(console.error);
+//     return redisValue;
+//   }
+    // set function takes args to store it in Redis (with an expiration set by the duration argument)
+//   async set(key, value, duration) {
+//     const setFunc = promisify(this.client.set).bind(this.client);
+//     await setFunc(key, value, 'EX', duration).catch(console.error);
+//   }
+    // del fucntion removes the value in Redis for this key
+//   async del(key) {
+//     const delFunc = promisify(this.client.del).bind(this.client);
+//     await delFunc(key).catch(console.error);
+//   }
+// }
 
 const redisClient = new RedisClient();
 export default redisClient;
