@@ -6,17 +6,13 @@ const waitConnection = () => {
         const repeatFct = async () => {
             await setTimeout(() => {
                 i += 1;
-		console.log('This is i', );
                 if (i >= 10) {
-		    console.log('This is a test');
                     reject()
-		    console.log('Rejected');
                 }
                 else if(!dbClient.isAlive()) {
                     repeatFct()
                 }
                 else {
-		    console.log('This is a test');
                     resolve()
                 }
             }, 1000);
