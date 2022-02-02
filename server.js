@@ -1,11 +1,9 @@
 const express = require('express');
-const indexRouter = require('./routes/index');
+const routes = require('./routes/index');
 
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.listen(port, console.log(`Server running on port ${port}`));
-app.use(express.json({ limit: '50mb' }));
-app.use('/', indexRouter);
+app.use(express.json()); // built-in middleware function in Express. It parses incoming requests with JSON payloads
 
-module.exports = app;
+app.listen(port, () => console.log('App listening on port 5000'));
