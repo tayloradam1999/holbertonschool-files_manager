@@ -17,13 +17,13 @@ const router = (app) => {
 	// GET '/stats'
 	paths.get('/stats', AppController.getStats);
 	// POST '/users'
-        paths.post('/users', UsersController.postNew);
-        // GET '/connect'
-        paths.get('/connect', AuthController.getConnect);
-        // GET '/disconnect'
-        paths.get('/disconnect', AuthController.getDisconnect);
-        // GET '/users/me'
-        paths.get('/users/me', UsersController.getMe);
+	paths.post('/users', UsersController.postNew);
+	// GET '/connect'
+	paths.get('/connect', AuthController.getConnect);
+	// GET '/disconnect'
+	paths.get('/disconnect', AuthController.getDisconnect);
+	// GET '/users/me'
+	paths.get('/users/me', UsersController.getMe);
 };
 
 
