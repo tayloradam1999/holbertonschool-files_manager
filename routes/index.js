@@ -3,6 +3,7 @@ const express = require('express');
 
 // import controllers
 const AppController = require('../controllers/AppController');
+const UsersController = require('../controllers/UsersController');
 
 // router setup
 const router = (app) => {
@@ -14,7 +15,9 @@ const router = (app) => {
 	paths.get('/status', AppController.getStatus);
 	// GET '/stats'
 	paths.get('/stats', AppController.getStats);
-}
+	// POST '/users'
+	paths.post('/users', UsersController.postNew);
+};
 
 
 module.exports = router;
