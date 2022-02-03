@@ -24,6 +24,14 @@ class UsersController {
 			res.status(201).send({ id: document._id, email: document.email });
 		});
 	}
+
+        static async getMe(req, res) {
+          const user = await getUser(req, res);
+	  // If not found, return an error Unauthorized with a status code 401
+	  if (!user) return res.status(401).send({ error: 'Unauthorized' });
+	  // Otherwise, return the user object (email and id only)
+	  return res.send({ id: user._id, email: user.email });
+  }
 }
 
 module.exports = UsersController;

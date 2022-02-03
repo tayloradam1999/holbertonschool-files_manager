@@ -4,6 +4,7 @@ const express = require('express');
 // import controllers
 const AppController = require('../controllers/AppController');
 const UsersController = require('../controllers/UsersController');
+const AuthController = require('../controllers/AuthController');
 
 // router setup
 const router = (app) => {
@@ -16,7 +17,13 @@ const router = (app) => {
 	// GET '/stats'
 	paths.get('/stats', AppController.getStats);
 	// POST '/users'
-	paths.post('/users', UsersController.postNew);
+        paths.post('/users', UsersController.postNew);
+        // GET '/connect'
+        router.get('/connect', AuthController.getConnect);
+        // GET '/disconnect'
+        router.get('/disconnect', AuthController.getDisconnect);
+        // GET '/users/me'
+        router.get('/users/me', UsersController.getMe);
 };
 
 
