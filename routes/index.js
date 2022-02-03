@@ -19,11 +19,11 @@ const router = (app) => {
 	// POST '/users'
         paths.post('/users', UsersController.postNew);
         // GET '/connect'
-        router.get('/connect', AuthController.getConnect);
+        paths.get('/connect', AuthController.getConnect);
         // GET '/disconnect'
-        router.get('/disconnect', AuthController.getDisconnect);
+        paths.get('/disconnect', AuthController.getDisconnect);
         // GET '/users/me'
-        router.get('/users/me', UsersController.getMe);
+        paths.get('/users/me', UsersController.getMe);
 };
 
 
