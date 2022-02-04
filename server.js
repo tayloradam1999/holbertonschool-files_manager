@@ -1,5 +1,6 @@
 // Express server for files_manager
 const express = require('express');
+
 const app = express();
 // server properties
 const port = process.env.PORT || 5000;
@@ -10,5 +11,5 @@ const router = require('./routes/index');
 router(app);
 // run app
 app.listen(port, () => {
-	  console.log(`Express server listening on port ${port}`);
+  console.log(`Express server listening on port ${port}`);
 });
