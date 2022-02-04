@@ -11,7 +11,7 @@ class RedisClient {
 
   isAlive() {
     // returns if Redis Client and DB client are alive
-    return !!this.client;
+    return this.client.connected;
   }
 
   // get function returns the Redis value stored for this key
