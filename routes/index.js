@@ -5,6 +5,7 @@ const express = require('express');
 const AppController = require('../controllers/AppController');
 const UsersController = require('../controllers/UsersController');
 const AuthController = require('../controllers/AuthController');
+const FilesController = require('../controllers/FilesController');
 
 // router setup
 const router = (app) => {
@@ -24,6 +25,8 @@ const router = (app) => {
   paths.get('/disconnect', AuthController.getDisconnect);
   // GET '/users/me'
   paths.get('/users/me', UsersController.getMe);
+  // POST '/files'
+  paths.post('/files', FilesController.postUpload);
 };
 
 module.exports = router;
