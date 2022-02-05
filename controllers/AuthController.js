@@ -43,7 +43,7 @@ class AuthController {
   }
 
   static async getDisconnect(request, response) {
-    const theTok = request.header('X-token').split(' ');
+    const theTok = request.headers('X-token').split(' ');
 
     const theKey = `auth_${theTok}`;
 
