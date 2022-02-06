@@ -193,7 +193,8 @@ class FilesController {
       const fileId = new mongodb.ObjectId(id);
       const fileDoc = await DBClient.db.collection('files').findOne({ _id: fileId });
 
-      if (userId !== fileDoc.userId.toString() || !fileDoc) return res.status(404).send({ error: 'Not found' });
+      if (!fileDoc) return res.status(404).send({ error: 'Not found' });
+      if (userId !== fileDoc.userId.toString()) return res.status(404).send({ error: 'Not found' });
 
       fileDoc.isPublic = true;
 
@@ -224,7 +225,8 @@ class FilesController {
       const fileId = new mongodb.ObjectId(id);
       const fileDoc = await DBClient.db.collection('files').findOne({ _id: fileId });
 
-      if (userId !== fileDoc.userId.toString() || !fileDoc) return res.status(404).send({ error: 'Not found' });
+      if (!fileDoc) return res.status(404).send({ error: 'Not found' });
+      if (userId !== fileDoc.userId.toString()) return res.status(404).send({ error: 'Not found' });
 
       fileDoc.isPublic = false;
 
