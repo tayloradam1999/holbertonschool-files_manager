@@ -90,6 +90,73 @@ class FilesController {
       res.status(500).send({ error: error.toString() });
     });
   }
+    
+    static async getShow(req, res) {
+    // should retrieve the file document based on the ID
+    // Retrieve the user based on the token
+    // If not found, return an error Unauthorized with a status code 401
+    const theTok = req.headers['x-token'];
+    const theKey = `auth_${theKey}`;
+    const user = await RedisClient.get(theKey);
+    if (!user) return res.status(401).json({ error: 'Unauthorized' });
+	
+
+    const { id } = req.params; // check if any file document is linked to the id passed as parameter
+    const fileId = ObjectId(id); // save fileId in ObjectId and await DbClient to search collection 'files' for the default _id that m    ongoDB generated, which is connected to the actual ID
+    const fileDoc = await DBClient.db.collection('files').find({ _id: fileId }).toArray();
+
+
+    // If no file document is linked to the user and the ID passed as parameter, return an error Not found with a status code 404
+    // Otherwise, return the file document; each attribute will return the info starting at index 0
+    if (userId.toString() !== fileDoc.userId.toString()) return res.status(404).json({ error: 'Not found' });
+    return res.json({
+      id: fileDoc[0]._id,
+      userId,
+      name: fileDoc[0].name,
+      type: fileDoc[0].type,
+      isPublic: fileDoc[0].isPublic,
+      parentId: fileDoc[0].parentId,
+    });
+  }
+
+    static async getIndex(req, res) {
+   // should retrieve all users file documents for a specific parentId and with pagination
+   // Retrieve the user based on the token
+   // If not found, return an error Unauthorized with a status code 401
+    const theTok = req.headers['x-token'];
+    const theKey = `auth_${theKey}`;
+    const user = await RedisClient.get(theKey);
+    if (!user) return res.status(401).json({ error: 'Unauthorized' });
+
+  // Based on the query parameters parentId and page, return the list of file document
+  // if the parentId is not linked to any user folder, returns an empty list
+  // By default, parentId is equal to 0 = the root
+
+
+  // Each page should be 20 items max
+  // page query parameter starts at 0 for the first page. If equals to 1, it means it’s the second page (form the 20th to the 40th), etc…
+  // Pagination can be done directly by the aggregate of MongoDB
+    const parentId = req.query.parentId || 0;
+    const page = req.query.page || 0;
+    const agMatch = { $and: [{ parentId }] };
+    let agData = [{ $match: agMatch }, { $skip: page * 20 }, { $limit: 20 }];
+    if (parentId === 0) agData = [{ $skip: page * 20 }, { $limit: 20 }];
+
+    const listFiles = await DBClient.db.collection('files').aggregate(agData);
+    const arrFiles = [];
+    await listFiles.forEach((file) => {
+      const obj = {
+        id: file._id,
+        userId: file.userId,
+        name: file.name,
+        type: file.type,
+        isPublic: file.isPublic,
+        parentId: file.parentId,
+      };
+      arrFiles.push(obj);
+    });
+    return res.send(arrFiles);
+  }
 }
 
 module.exports = FilesController;
