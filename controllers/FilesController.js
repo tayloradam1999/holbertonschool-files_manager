@@ -99,24 +99,19 @@ class FilesController {
       const theTok = req.headers['x-token'];
       const theKey = `auth_${theTok}`;
       const userId = await RedisClient.get(theKey);
-      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+      if (!userId) return res.status(401).send({ error: 'Unauthorized' });
 
-      const { id } = req.params; // check if any file document is linked to the id
-      const fileId = new mongodb.ObjectId(id); // save fileId in ObjectId
-      const fileDoc = await DBClient.db.collection('files').findOne({ _id: fileId });
-
-      // If no file document is linked to the user and the ID passed as parameter edgecase
-      // Otherwise, return the file document; will return starting at index 0
-      if (userId !== fileDoc.userId.toString() || !fileDoc) return res.status(404).json({ error: 'Not found' });
-      const returnedfileDoc = {
-        id: fileDoc._id,
-        userId: fileDoc.userId,
-        name: fileDoc.name,
-        type: fileDoc.type,
-        isPublic: fileDoc.isPublic,
-        parentId: fileDoc.parentId,
-      };
-      return res.status(200).send(returnedfileDoc);
+      const userId = new mongodb.ObjectId(userId);
+      // retrieve the file document based on the ID
+      const fileId = new mongodb.ObjectId(req.params.id);
+      // find the file document based on the ID
+      const file = await DBClient.db.collection('files').findOne({ _id: fileId });
+      // if no file is present in DB for fileId edgecase
+      if (!file) return res.status(400).send({ error: 'Not found' });
+      file.id = file._id;
+      // delete the _id field from the file document due to checker being awful
+      delete file._id;
+      return res.status(200).send(file);
     })();
   }
 
