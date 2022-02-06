@@ -120,11 +120,22 @@ class FilesController {
   }
 
     static async getIndex(req, res) {
+   // should retrieve all users file documents for a specific parentId and with pagination
+   // Retrieve the user based on the token
+   // If not found, return an error Unauthorized with a status code 401
     const theTok = req.headers['x-token'];
     const theKey = `auth_${theKey}`;
     const user = await RedisClient.get(theKey);
     if (!user) return res.status(401).json({ error: 'Unauthorized' });
 
+  // Based on the query parameters parentId and page, return the list of file document
+  // if the parentId is not linked to any user folder, returns an empty list
+  // By default, parentId is equal to 0 = the root
+
+
+  // Each page should be 20 items max
+  // page query parameter starts at 0 for the first page. If equals to 1, it means it’s the second page (form the 20th to the 40th), etc…
+  // Pagination can be done directly by the aggregate of MongoDB
     const parentId = req.query.parentId || 0;
     const page = req.query.page || 0;
     const agMatch = { $and: [{ parentId }] };
