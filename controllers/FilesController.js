@@ -98,8 +98,8 @@ class FilesController {
       // If not found, return an error Unauthorized with a status code 401
       const theTok = req.headers['x-token'];
       const theKey = `auth_${theTok}`;
-      const userId = await RedisClient.get(theKey);
-      if (!userId) return res.status(401).send({ error: 'Unauthorized' });
+      const user = await RedisClient.get(theKey);
+      if (!user) return res.status(401).send({ error: 'Unauthorized' });
 
       const userId = new mongodb.ObjectId(userId);
       // retrieve the file document based on the ID
@@ -122,8 +122,8 @@ class FilesController {
       // If not found, return an error Unauthorized with a status code 401
       const theTok = req.headers['x-token'];
       const theKey = `auth_${theTok}`;
-      const userId = await RedisClient.get(theKey);
-      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+      const user = await RedisClient.get(theKey);
+      if (!user) return res.status(401).json({ error: 'Unauthorized' });
 
       // Based on the query parameters parentId and page, return the list of file document
       // if the parentId is not linked to any user folder, returns an empty list
@@ -146,7 +146,7 @@ class FilesController {
           { $limit: 20 },
         ]).toArray();
       } else {
-        const parentIdObject = new mongodb.ObjectId(userId);
+        const parentIdObject = new mongodb.ObjectId(user);
         files = await DBClient.db.collection('files').aggregate([
           { $match: { parentId: parentIdObject } },
           { $skip: page * 20 },
@@ -158,7 +158,7 @@ class FilesController {
       // we need to loop through the list of file documents and add the userId to each file document
       const filesWithUserId = files.map((file) => ({
         id: file._id,
-        userId,
+        userId: file.userId,
         name: file.name,
         type: file.type,
         isPublic: file.isPublic,
