@@ -118,6 +118,34 @@ class FilesController {
       parentId: fileDoc[0].parentId,
     });
   }
+
+    static async getIndex(req, res) {
+    const theTok = req.headers['x-token'];
+    const theKey = `auth_${theKey}`;
+    const user = await RedisClient.get(theKey);
+    if (!user) return res.status(401).json({ error: 'Unauthorized' });
+
+    const parentId = req.query.parentId || 0;
+    const page = req.query.page || 0;
+    const agMatch = { $and: [{ parentId }] };
+    let agData = [{ $match: agMatch }, { $skip: page * 20 }, { $limit: 20 }];
+    if (parentId === 0) agData = [{ $skip: page * 20 }, { $limit: 20 }];
+
+    const listFiles = await DBClient.db.collection('files').aggregate(agData);
+    const arrFiles = [];
+    await listFiles.forEach((file) => {
+      const obj = {
+        id: file._id,
+        userId: file.userId,
+        name: file.name,
+        type: file.type,
+        isPublic: file.isPublic,
+        parentId: file.parentId,
+      };
+      arrFiles.push(obj);
+    });
+    return res.send(arrFiles);
+  }
 }
 
 module.exports = FilesController;
