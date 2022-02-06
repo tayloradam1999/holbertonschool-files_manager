@@ -157,7 +157,7 @@ class FilesController {
       } else {
         const parentIdObject = new mongodb.ObjectId(userId);
         files = await DBClient.db.collection('files').aggregate([
-          { $match: { parentId: parentIdObject } },
+          { $match: { userId: parentIdObject } },
           { $skip: page * 20 },
           { $limit: 20 },
         ]).toArray();
