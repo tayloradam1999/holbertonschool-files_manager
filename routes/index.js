@@ -27,6 +27,11 @@ const router = (app) => {
   paths.get('/users/me', UsersController.getMe);
   // POST '/files'
   paths.post('/files', FilesController.postUpload);
+  // GET '/files/:id'
+  paths.get('/files/:id', FilesController.getShow);
+  // GET '/files'
+  paths.get('/files', FilesController.getIndex);
+
 };
 
 module.exports = router;
