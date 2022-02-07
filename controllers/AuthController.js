@@ -47,7 +47,6 @@ class AuthController {
       // Otherwise, delete the token in Redis and return nothing with a status code 204
       await RedisClient.del(theKey);
       response.status(204).end();
-      return null;
     })();
   }
 }
