@@ -35,6 +35,8 @@ const router = (app) => {
   paths.put('/files/:id/publish', FilesController.putPublish);
   // PUT '/files/:id/publish
   paths.put('/files/:id/unpublish', FilesController.putUnpublish);
+  // GET '/files/:id/data'
+  paths.get('/files/:id/data', FilesController.getFile);
 };
 
 module.exports = router;

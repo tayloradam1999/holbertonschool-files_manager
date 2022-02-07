@@ -260,7 +260,7 @@ class FilesController {
 
       // if file is locally present, return it
       const data = fs.readFileSync(file.localPath);
-      return res.status(200).send(data);
+      return res.status(200).end(data);
     })();
   }
 }
