@@ -260,7 +260,7 @@ class FilesController {
       // if file doc (folder of file) is not public, user is not authenticated or not owner edgecase
       if (!file.isPublic && userId !== file.userId.toString()) return res.status(404).send({ error: 'Not found' });
       // if type of fileDoc is 'folder' edgecase
-      if (file.type === 'folder') return res.status(400).send({ error: 'A folder doesn\'t have content' });
+      if (file.type === 'folder') return res.status(400).send({ error: `A folder doesn't have content` });
       // if file is not locally present edgecase
       if (!fs.existsSync(file.localPath)) return res.status(404).send({ error: 'Not found' });
 
