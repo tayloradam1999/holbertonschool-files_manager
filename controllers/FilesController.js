@@ -4,6 +4,7 @@ import RedisClient from '../utils/redis';
 
 const mongodb = require('mongodb');
 const fs = require('fs'); // for access to the file system
+const mime = require('mime-types'); // for access to the file system
 
 class FilesController {
   static postUpload(req, res) {
@@ -239,6 +240,38 @@ class FilesController {
         parentId: fileDoc.parentId,
       };
       return res.status(200).send(updatedFileDoc);
+    })();
+  }
+
+  static getFile(req, res) {
+    (async () => {
+      // returns content of the file document based on the ID
+      const theTok = req.headers['x-token'];
+      const theKey = `auth_${theTok}`;
+      const userId = await RedisClient.get(theKey);
+      // if no userId edgecase
+      if (!userId) return res.status(401).send({ error: 'Unauthorized' });
+
+      const { id } = req.params;
+      const fileId = new mongodb.ObjectId(id);
+      const file = await DBClient.db.collection('files').findOne({ _id: fileId });
+      // if no file document is linked to ID passed as parameter edgecase
+      if (!file) return res.status(404).send({ error: 'Not found' });
+      // if file doc (folder of file) is not public, user is not authenticated or not owner edgecase
+      if (!file.isPublic && userId !== file.userId.toString()) return res.status(404).send({ error: 'Not found' });
+      // if type of fileDoc is 'folder' edgecase
+      if (file.type === 'folder') return res.status(400).send({ error: 'A folder doesn\'t have content' });
+      // if file is not locally present edgecase
+      if (!fs.existsSync(file.localPath)) return res.status(404).send({ error: 'Not found' });
+
+      // Otherwise, using 'mime-types', get the MIME-type based on the 'name' of the file
+      // Return content of the file with the correct MIME-type
+      const mimeType = mime.getType(file.name);
+      res.setHeader('Content-Type', mimeType);
+      // after setting the header to the correct MIME-type, read the file and return the content
+      // comes back as utf8 by default, so we need to convert it
+      const data = fs.readFileSync(file.localPath, 'utf8');
+      return res.status(200).send(data);
     })();
   }
 }
