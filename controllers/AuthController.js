@@ -46,7 +46,7 @@ class AuthController {
       if (!user) return response.status(401).send({ error: 'Unauthorized' });
       // Otherwise, delete the token in Redis and return nothing with a status code 204
       await RedisClient.del(theKey);
-      response.status(204).end();
+      return response.status(204).end();
     })();
   }
 }
