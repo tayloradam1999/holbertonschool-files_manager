@@ -1,6 +1,6 @@
 # 0x03. Files manager Project
 
- ![files](maksym-kaharlytskyi-Q9y3LRuuxmg-unsplash)
+ ![files](maksym-kaharlytskyi-Q9y3LRuuxmg-unsplash.jpg)
 
 ## Description
 
