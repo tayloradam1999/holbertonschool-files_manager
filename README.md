@@ -1,5 +1,7 @@
 # 0x03. Files manager Project
 
+ ![files](maksym-kaharlytskyi-Q9y3LRuuxmg-unsplash)
+
 ## Description
 
 This project is a summary of this back-end trimester: authentication, NodeJS, MongoDB, Redis, pagination and background processing.
@@ -56,10 +58,10 @@ At the end of this project, you are expected to be able to explain to anyone, wi
 <!-- CONTACT -->
 ## Contact
 
-Adam Taylor - [github](https://github.com/tayloradam1999)
+Adam Taylor - [Github](https://github.com/tayloradam1999)
 
-Bree Browder - [github](https://github.com/breebrowder)
+Bree Browder - [Github](https://github.com/breebrowder)
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+Project Link: [Internal link](https://intranet.hbtn.io/projects/1723)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
