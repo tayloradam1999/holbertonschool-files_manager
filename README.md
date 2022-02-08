@@ -1,4 +1,6 @@
-# 0x03. Files manager Project
+# 0x03. Files Manager
+
+ ![files](maksym-kaharlytskyi-Q9y3LRuuxmg-unsplash.jpg)
 
 ## Description
 
@@ -14,7 +16,7 @@ The objective is to build a simple platform to upload and view files:
 * Generate thumbnails for images
 
 
-Note: Of course, this kind of service already exists in the real life - it’s a learning purpose to assemble each piece and build a full product. This platform will not feature a front-end interface the user can actually interact with. It is all handled strictly from the command line.
+<b>Note:</b> Of course, this kind of service already exists in the real life - it’s a learning purpose to assemble each piece and build a full product. This platform will not feature a front-end interface the user can actually interact with. It is all handled strictly from the command line.
 
 ### Resources
 
@@ -51,15 +53,18 @@ At the end of this project, you are expected to be able to explain to anyone, wi
 * Your code should use the js extension
 * Your code will be verified against lint using ESLint
 
+### BUGS
+
+This project was created without the current latest stable versions of MongoDB and Redis, therefore because these technologies are outdated and unsupported, there are bugs throughout the program that may prevent you from keeping the Redis client open consistenly and testing the code locally.
 
 
 <!-- CONTACT -->
 ## Contact
 
-Adam Taylor - [github](https://github.com/tayloradam1999)
+Adam Taylor - [Github](https://github.com/tayloradam1999)
 
-Bree Browder - [github](https://github.com/breebrowder)
+Bree Browder - [Github](https://github.com/breebrowder)
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+Project: [Internal link](https://intranet.hbtn.io/projects/1723)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
